@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    private GameObject cheese;
+    public GameObject cheese;
+    public Transform cameraPoint;
 
     // Start is called before the first frame update
     void Start()
     {
-        cheese = gameObject;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = Vector3.Lerp(transform.position, cameraPoint.position, 1f);
     }
 }
