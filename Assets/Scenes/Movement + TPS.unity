@@ -733,7 +733,7 @@ GameObject:
   m_Component:
   - component: {fileID: 822194806}
   m_Layer: 0
-  m_Name: Cheese empty
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1607,7 +1607,7 @@ GameObject:
   - component: {fileID: 2093626728}
   - component: {fileID: 2093626729}
   m_Layer: 0
-  m_Name: Cheese wheel
+  m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
