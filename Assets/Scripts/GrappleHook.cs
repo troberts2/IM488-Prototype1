@@ -47,6 +47,7 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook = playerCam.GetComponent<CinemachineFreeLook>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        RollingCameraSettings();
     }
     private void Update(){
         if(Input.GetKeyDown(KeyCode.Mouse0) && isSlowed) StartGrapple();
@@ -65,8 +66,6 @@ public class GrappleHook : MonoBehaviour
             StartCoroutine(GrappleTimeNormal());
             isSlowed = false;
         } 
-
-        Debug.Log(Time.timeScale);
     }
 
     /// <summary>
@@ -76,6 +75,7 @@ public class GrappleHook : MonoBehaviour
     private IEnumerator GrappleTimeSlow(){
         isSlowed = true;
         crossHair.enabled = true;
+        playerFreeLook.m_Lens.FieldOfView = grappleFov;
         FreeLookCameraSettings();
         for(float i = 1; i >= timeSlowPercentage; i -= Time.deltaTime){
             SetTimeScale(i);
@@ -99,17 +99,20 @@ public class GrappleHook : MonoBehaviour
     }
 
     private void FreeLookCameraSettings(){
-        playerFreeLook.m_XAxis.m_MinValue = -180f;
-        playerFreeLook.m_XAxis.m_MaxValue = 180f;
+        playerFreeLook.m_XAxis.m_MinValue = -90f;
+        playerFreeLook.m_XAxis.m_MaxValue = 90f;
+        playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
         playerFreeLook.m_XAxis.m_Wrap = true;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = false;
     }
 
     private void RollingCameraSettings(){
-        playerFreeLook.m_XAxis.m_MinValue = -90f;
-        playerFreeLook.m_XAxis.m_MaxValue = 90f;
-        playerFreeLook.m_XAxis.m_Wrap = false;
+        playerFreeLook.m_XAxis.m_MinValue = 0;
+        playerFreeLook.m_XAxis.m_MaxValue = 0;
+        playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+        playerFreeLook.m_XAxis.m_Wrap = false;
+        //playerFreeLook.m_RecenterToTargetHeading.RecenterNow();
     }
 
     private void StartGrapple(){
