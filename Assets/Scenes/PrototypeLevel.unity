@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4437564, g: 0.49310523, b: 0.57263696, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 624246495}
-  m_VersionIndex: 2765
+  m_VersionIndex: 2771
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1399,13 +1399,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295923289}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.48069605, y: -0.062514335, z: 0.07119094, w: 0.8717541}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 122.11301, y: -184.375, z: -173.08301}
 --- !u!1 &378288844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,7 +2382,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 16899582}
-  m_VersionIndex: 4268
+  m_VersionIndex: 4277
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2481,6 +2481,63 @@ Transform:
   - {fileID: 1196529005}
   m_Father: {fileID: 69828815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &919820295
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 27.83
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.47
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -109.64608
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.17364825
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+      propertyPath: m_Name
+      value: Rock1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
 --- !u!1 &1157488182
 GameObject:
   m_ObjectHideFlags: 0
@@ -3240,3 +3297,4 @@ SceneRoots:
   - {fileID: 378288849}
   - {fileID: 166861369}
   - {fileID: 775797574}
+  - {fileID: 919820295}
