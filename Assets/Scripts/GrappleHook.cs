@@ -102,7 +102,7 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_XAxis.m_MinValue = -90f;
         playerFreeLook.m_XAxis.m_MaxValue = 90f;
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
-        playerFreeLook.m_XAxis.m_Wrap = true;
+        playerFreeLook.m_XAxis.m_Wrap = false;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = false;
     }
 
@@ -110,6 +110,7 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_XAxis.m_MinValue = 0;
         playerFreeLook.m_XAxis.m_MaxValue = 0;
         playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
+        playerFreeLook.m_YAxis.Value = 1f;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = true;
         playerFreeLook.m_XAxis.m_Wrap = false;
         //playerFreeLook.m_RecenterToTargetHeading.RecenterNow();
