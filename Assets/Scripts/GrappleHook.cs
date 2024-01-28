@@ -17,17 +17,22 @@ public class GrappleHook : MonoBehaviour
     //Time stuff
     private bool isSlowed = false;
     [SerializeField] private float timeSlowPercentage = .2f; //use values 0-1 (think of it as percentage)
+    [SerializeField] private float maxSlowTime = 3f;
+    [SerializeField] private float currentSlowTimeLeft;
+    [SerializeField] private Image slowTimeUI;
 
     //grapple ability
     [Header("For Grappling")]
     [SerializeField] private Transform cam;
     public Transform shootPt;
+    [SerializeField] private Transform spotToSendPlayer;
     [SerializeField] private LayerMask grapplable;
 
     [SerializeField] private float maxGrappleDistance;
     [SerializeField] private float grapplableDelayTime;
     [SerializeField] private float overshootYAxis;
     [SerializeField] private float grappleFov = 80f;
+    [SerializeField] private float grappleSpeedMultiplier = 1f;
 
     internal Vector3 grapplePoint;
 
@@ -48,6 +53,8 @@ public class GrappleHook : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         RollingCameraSettings();
+        currentSlowTimeLeft = maxSlowTime;
+        slowTimeUI.fillAmount = currentSlowTimeLeft/maxSlowTime;
     }
     private void Update(){
         if(Input.GetKeyDown(KeyCode.Mouse0) && isSlowed) StartGrapple();
@@ -56,7 +63,7 @@ public class GrappleHook : MonoBehaviour
 
         if(freeze) rb.velocity = Vector3.zero;
 
-        if(Input.GetKeyDown(KeyCode.Space) && !isSlowed){
+        if(Input.GetKeyDown(KeyCode.Space) && !isSlowed && currentSlowTimeLeft >= 0){
             StopCoroutine(GrappleTimeNormal());
             StartCoroutine(GrappleTimeSlow());
             isSlowed = true;
@@ -66,6 +73,7 @@ public class GrappleHook : MonoBehaviour
             StartCoroutine(GrappleTimeNormal());
             isSlowed = false;
         } 
+        UseSlowTime();
     }
 
     /// <summary>
@@ -91,6 +99,23 @@ public class GrappleHook : MonoBehaviour
             yield return null;
         }
     }
+    private void UseSlowTime(){
+        if(isSlowed && currentSlowTimeLeft > 0){
+            currentSlowTimeLeft -= Time.unscaledDeltaTime;
+            slowTimeUI.enabled = true;
+        }else if(!isSlowed && currentSlowTimeLeft < maxSlowTime){
+            currentSlowTimeLeft += Time.unscaledDeltaTime;
+        }
+        slowTimeUI.fillAmount = currentSlowTimeLeft/maxSlowTime;
+        if(currentSlowTimeLeft <= 0 && isSlowed){
+            StopCoroutine(GrappleTimeSlow());
+            StartCoroutine(GrappleTimeNormal());
+            isSlowed = false;
+        }
+        if(currentSlowTimeLeft >= maxSlowTime){
+            slowTimeUI.enabled = false;
+        } 
+    }
 
     private void SetTimeScale(float scale){
         Time.timeScale = scale;
@@ -102,7 +127,7 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_XAxis.m_MinValue = -90f;
         playerFreeLook.m_XAxis.m_MaxValue = 90f;
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
-        playerFreeLook.m_XAxis.m_Wrap = true;
+        playerFreeLook.m_XAxis.m_Wrap = false;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = false;
     }
 
@@ -110,13 +135,14 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_XAxis.m_MinValue = 0;
         playerFreeLook.m_XAxis.m_MaxValue = 0;
         playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
+        playerFreeLook.m_YAxis.Value = 1f;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = true;
         playerFreeLook.m_XAxis.m_Wrap = false;
         //playerFreeLook.m_RecenterToTargetHeading.RecenterNow();
     }
 
     private void StartGrapple(){
-        if(grapplingCdTimer > 0) return;
+        if(grapplingCdTimer > 0 || currentSlowTimeLeft <= 0) return;
 
         if(Time.timeScale < 1) {
             StopCoroutine(GrappleTimeSlow());
@@ -129,6 +155,7 @@ public class GrappleHook : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)){
             grapplePoint = hit.point;
+            spotToSendPlayer = hit.transform.GetChild(0);
             Invoke(nameof(ExecuteGrapple), grapplableDelayTime);
         }
         else{
@@ -148,7 +175,7 @@ public class GrappleHook : MonoBehaviour
 
         if(grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
 
-        JumpToPosition(grapplePoint, highestPointOnArc);
+        JumpToPosition(spotToSendPlayer.position, highestPointOnArc);
 
         Invoke(nameof(StopGrapple), 1f);
 
@@ -204,7 +231,7 @@ public class GrappleHook : MonoBehaviour
         Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
 
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
-        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) 
+        Vector3 velocityXZ = displacementXZ * grappleSpeedMultiplier / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) 
             + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
 
         return velocityXZ + velocityY;
