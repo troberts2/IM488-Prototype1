@@ -74,6 +74,12 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
+
+        //Gabe code (hi) for crossheir color
+        RaycastHit hit;
+
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)) crossHair.GetComponent<Image>().color = Color.red;
+        else crossHair.GetComponent<Image>().color = Color.green;
     }
 
     /// <summary>
