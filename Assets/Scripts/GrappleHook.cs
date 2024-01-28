@@ -1,5 +1,6 @@
-using Cinemachine;
 using System.Collections;
+using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,13 +65,7 @@ public class GrappleHook : MonoBehaviour
             StopCoroutine(GrappleTimeSlow());
             StartCoroutine(GrappleTimeNormal());
             isSlowed = false;
-        }
-
-        //Gabe code (hi) for crossheir color
-        RaycastHit hit;
-
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)) crossHair.GetComponent<Image>().color = Color.red;
-        else crossHair.GetComponent<Image>().color = Color.green;
+        } 
     }
 
     /// <summary>
