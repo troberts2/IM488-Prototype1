@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 8768da20c5311e34cad79781ebcf9ea2
   - enabled: 1
-    path: Assets/Scenes/TommyTest.unity
-    guid: 689f47e5a730b8a42b12f4781043a624
+    path: Assets/Scenes/PrototypeLevel.unity
+    guid: 50db69ee8e16326418c7f8b2ec112c20
   - enabled: 1
     path: Assets/Scenes/Win Scene.unity
     guid: 9c3f2fcfa86653d44bb8a5b95cdc24c0
@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: fd0ca209c1895364086828c118bb05bb
+  - enabled: 0
+    path: Assets/Scenes/TommyTest.unity
+    guid: 689f47e5a730b8a42b12f4781043a624
   m_configObjects: {}
