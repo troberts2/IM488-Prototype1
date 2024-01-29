@@ -13,20 +13,28 @@ public class Movement : MonoBehaviour
     //defined in prefab
     public GameObject visual;
 
+    private GrappleHook grappleHook;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        grappleHook = GetComponent<GrappleHook>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        LeftRightMove();
+    }
+
+    private void LeftRightMove(){
+        if(grappleHook.grappling) return;
         //movement + tilt
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += new Vector3(moveSpeed/100, 0, 0);
             visual.transform.rotation = Quaternion.Euler(90, 0, 75);
+            Debug.Log("right");
 
         }
         else if (Input.GetKey(KeyCode.A))
