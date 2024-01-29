@@ -9,6 +9,8 @@ public class WinCondition : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Victory"))
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("Win Scene");
         }
     }

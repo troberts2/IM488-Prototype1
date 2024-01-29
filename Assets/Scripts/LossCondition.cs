@@ -9,6 +9,8 @@ public class LossCondition : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("Loss Scene");
         }
     }
