@@ -157,11 +157,11 @@ public class GrappleHook : MonoBehaviour
         } 
 
         grappling = true;
-        freeze = true;
         RaycastHit hit;
         if(Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)){
             grapplePoint = hit.point;
             spotToSendPlayer = hit.transform.GetChild(0);
+            freeze = true;
             Invoke(nameof(ExecuteGrapple), grapplableDelayTime);
         }
         else{
