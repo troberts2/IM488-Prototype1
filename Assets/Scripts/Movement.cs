@@ -8,16 +8,27 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    //Right now a good movespeed is 2;
-    public float moveSpeed;
-    //defined in prefab
-    public GameObject visual;
+    private Rigidbody rb;
+
+    public float moveSpeed; //a good movespeed is 2;
+    public float groundedCap;
+    public float boostedCap;
+    public float airborneCap;
+
+    private Vector3 curVelocity;
+
+    private bool grounded;
+    private bool velocityCapMet;
+    private bool boosted;
+
+    public GameObject visual; //defined in prefab
 
     private GrappleHook grappleHook;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         grappleHook = GetComponent<GrappleHook>();
     }
 
@@ -25,6 +36,7 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         LeftRightMove();
+        CapVelocity();
     }
 
     private void LeftRightMove(){
@@ -34,7 +46,6 @@ public class Movement : MonoBehaviour
         {
             transform.position += new Vector3(moveSpeed/100, 0, 0);
             visual.transform.rotation = Quaternion.Euler(90, 0, 75);
-            Debug.Log("right");
 
         }
         else if (Input.GetKey(KeyCode.A))
@@ -46,5 +57,53 @@ public class Movement : MonoBehaviour
         {
             visual.transform.rotation = Quaternion.Euler(90, 0, 90);
         }
+    }
+
+    private void CapVelocity()
+    {
+        if (grounded)
+        {
+            if (boosted)
+            {
+                if (rb.velocity.magnitude >= boostedCap)
+                {
+                    rb.velocity = Vector3.ClampMagnitude(rb.velocity, boostedCap);
+                }
+            }
+            else
+            {
+                if (rb.velocity.magnitude >= groundedCap)
+                {
+                    rb.velocity = Vector3.ClampMagnitude(rb.velocity, groundedCap);
+                }
+            }
+        }
+        else
+        {
+            if (rb.velocity.magnitude >= airborneCap)
+            {
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, airborneCap);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        grounded = true;
+        if (collision.gameObject.layer == 8)
+        {
+            boosted = true;
+            Debug.Log("you're boosted!");
+        }
+        else
+        {
+            boosted = false;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        grounded = false;
+        boosted = false;
     }
 }
