@@ -43,7 +43,6 @@ public class GrappleHook : MonoBehaviour
 
     //temp before combine with other player move script
     private bool freeze;
-    private bool activeGrapple;
     private bool enableMovementOnNextTouch;
 
 
@@ -64,7 +63,7 @@ public class GrappleHook : MonoBehaviour
         if(freeze) rb.velocity = Vector3.zero;
 
         if(Input.GetKeyDown(KeyCode.Space) && !isSlowed && currentSlowTimeLeft >= 0 && grapplingCdTimer <= 0){
-            StopCoroutine(GrappleTimeNormal());
+            StopAllCoroutines();
             StartCoroutine(GrappleTimeSlow());
             isSlowed = true;
         } 
@@ -80,8 +79,6 @@ public class GrappleHook : MonoBehaviour
 
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)) crossHair.GetComponent<Image>().color = Color.red;
         else crossHair.GetComponent<Image>().color = Color.green;
-
-        Debug.Log(Time.timeScale);
     }
 
     /// <summary>
@@ -116,7 +113,7 @@ public class GrappleHook : MonoBehaviour
         }
         slowTimeUI.fillAmount = currentSlowTimeLeft/maxSlowTime;
         if(currentSlowTimeLeft <= 0 && isSlowed){
-            StopCoroutine(GrappleTimeSlow());
+            StopAllCoroutines();
             StartCoroutine(GrappleTimeNormal());
             isSlowed = false;
         }
@@ -132,8 +129,6 @@ public class GrappleHook : MonoBehaviour
     }
 
     private void FreeLookCameraSettings(){
-        StopCoroutine(ChangeYValue(playerFreeLook.m_YAxis.Value, 1, .5f));
-        StopCoroutine(ChangeXValue(playerFreeLook.m_XAxis.m_MaxValue, 0, .5f));
         playerFreeLook.m_XAxis.m_MinValue = -90f;
         playerFreeLook.m_XAxis.m_MaxValue = 90f;
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
@@ -211,7 +206,6 @@ public class GrappleHook : MonoBehaviour
 
     public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
-        activeGrapple = true;
 
         velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
         Invoke(nameof(SetVelocity), 0.1f);
@@ -230,7 +224,6 @@ public class GrappleHook : MonoBehaviour
 
     public void ResetRestrictions()
     {
-        activeGrapple = false;
         playerFreeLook.m_Lens.FieldOfView = 60f;
         
     }
