@@ -80,6 +80,8 @@ public class GrappleHook : MonoBehaviour
 
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)) crossHair.GetComponent<Image>().color = Color.red;
         else crossHair.GetComponent<Image>().color = Color.green;
+
+        Debug.Log(Time.timeScale);
     }
 
     /// <summary>
@@ -130,7 +132,8 @@ public class GrappleHook : MonoBehaviour
     }
 
     private void FreeLookCameraSettings(){
-        StopAllCoroutines();
+        StopCoroutine(ChangeYValue(playerFreeLook.m_YAxis.Value, 1, .5f));
+        StopCoroutine(ChangeXValue(playerFreeLook.m_XAxis.m_MaxValue, 0, .5f));
         playerFreeLook.m_XAxis.m_MinValue = -90f;
         playerFreeLook.m_XAxis.m_MaxValue = 90f;
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
