@@ -63,7 +63,7 @@ public class GrappleHook : MonoBehaviour
 
         if(freeze) rb.velocity = Vector3.zero;
 
-        if(Input.GetKeyDown(KeyCode.Space) && !isSlowed && currentSlowTimeLeft >= 0){
+        if(Input.GetKeyDown(KeyCode.Space) && !isSlowed && currentSlowTimeLeft >= 0 && grapplingCdTimer <= 0){
             StopCoroutine(GrappleTimeNormal());
             StartCoroutine(GrappleTimeSlow());
             isSlowed = true;
@@ -130,21 +130,36 @@ public class GrappleHook : MonoBehaviour
     }
 
     private void FreeLookCameraSettings(){
+        StopAllCoroutines();
         playerFreeLook.m_XAxis.m_MinValue = -90f;
         playerFreeLook.m_XAxis.m_MaxValue = 90f;
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
         playerFreeLook.m_XAxis.m_Wrap = false;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = false;
     }
-
+    private float freeLookYAxisVal;
     private void RollingCameraSettings(){
-        playerFreeLook.m_XAxis.m_MinValue = 0;
-        playerFreeLook.m_XAxis.m_MaxValue = 0;
+        StartCoroutine(ChangeYValue(playerFreeLook.m_YAxis.Value, 1, .5f));
+        StartCoroutine(ChangeXValue(playerFreeLook.m_XAxis.m_MaxValue, 0, .5f));
         playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
-        playerFreeLook.m_YAxis.Value = 1f;
-        playerFreeLook.m_RecenterToTargetHeading.m_enabled = true;
         playerFreeLook.m_XAxis.m_Wrap = false;
-        //playerFreeLook.m_RecenterToTargetHeading.RecenterNow();
+        
+    }
+    public IEnumerator ChangeYValue(float oldValue, float newValue, float duration) {
+        for (float t = 0f; t < duration; t += Time.deltaTime) {
+        playerFreeLook.m_YAxis.Value = Mathf.Lerp(oldValue, newValue, t / duration);
+        yield return null;
+        }
+        playerFreeLook.m_YAxis.Value = newValue;
+    }
+    public IEnumerator ChangeXValue(float oldValue, float newValue, float duration) {
+        for (float t = 0f; t < duration; t += Time.deltaTime) {
+        playerFreeLook.m_XAxis.m_MinValue = Mathf.Lerp(-oldValue, newValue, t / duration);
+        playerFreeLook.m_XAxis.m_MaxValue = Mathf.Lerp(oldValue, newValue, t / duration);
+        yield return null;
+        }
+        playerFreeLook.m_XAxis.m_MinValue = -newValue;
+        playerFreeLook.m_XAxis.m_MaxValue = newValue;
     }
 
     private void StartGrapple(){
@@ -173,7 +188,7 @@ public class GrappleHook : MonoBehaviour
 
     private void ExecuteGrapple(){
         freeze = false;
-
+        grapplingCdTimer = grapplingCd;
         Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y -1f, transform.position.z);
 
         float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
@@ -189,7 +204,6 @@ public class GrappleHook : MonoBehaviour
 
     private void StopGrapple(){
         grappling = false;
-        grapplingCdTimer = grapplingCd;
     }
 
     public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
