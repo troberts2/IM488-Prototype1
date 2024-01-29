@@ -4552,6 +4552,35 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4493585093827132993, guid: 361eb0570811abe4c928f0a8bcab00ee, type: 3}
+--- !u!1 &2035079727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5183779873676661336, guid: 68080fca67e39544585345412565da1d, type: 3}
+  m_PrefabInstance: {fileID: 2080262434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2035079734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035079727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb73cb48217cbd41bba03363a55b182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2035079735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035079727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439f5c7900d9a6e49a6306a285913901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2045971973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4673,19 +4702,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 568567592894508453, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97934073
+      value: 0.9793408
       objectReference: {fileID: 0}
     - target: {fileID: 568567592894508453, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.20221701
+      value: 0.202217
       objectReference: {fileID: 0}
     - target: {fileID: 568567592894508453, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000002249567
+      value: -0.000000051657935
       objectReference: {fileID: 0}
     - target: {fileID: 568567592894508453, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000005296897
+      value: 0.000000009807991
       objectReference: {fileID: 0}
     - target: {fileID: 2204134737596277490, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4810,7 +4839,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5183779873676661336, guid: 68080fca67e39544585345412565da1d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2035079735}
+    - targetCorrespondingSourceObject: {fileID: 5183779873676661336, guid: 68080fca67e39544585345412565da1d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2035079734}
   m_SourcePrefab: {fileID: 100100000, guid: 68080fca67e39544585345412565da1d, type: 3}
 --- !u!1001 &2086654674
 PrefabInstance:
