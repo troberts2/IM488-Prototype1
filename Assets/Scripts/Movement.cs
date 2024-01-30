@@ -45,17 +45,16 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += new Vector3(moveSpeed/100, 0, 0);
-            visual.transform.rotation = Quaternion.Euler(90, 0, 75);
-
+            visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 65), 0.1f);
         }
         else if (Input.GetKey(KeyCode.A))
         {
             transform.position += new Vector3(-moveSpeed/100, 0, 0);
-            visual.transform.rotation = Quaternion.Euler(90, 0, 105);
+            visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 115), 0.1f);
         }
         else
         {
-            visual.transform.rotation = Quaternion.Euler(90, 0, 90);
+            visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 90), 0.1f);
         }
     }
 
