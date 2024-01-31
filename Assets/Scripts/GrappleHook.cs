@@ -12,6 +12,8 @@ public class GrappleHook : MonoBehaviour
 
     [SerializeField] private GameObject playerCam;
     [SerializeField] private Image crossHair;
+    [SerializeField] private GameObject speedParticles;
+    [SerializeField] private float speedUIMagnitude = 10f;
 
 
     //Time stuff
@@ -25,7 +27,7 @@ public class GrappleHook : MonoBehaviour
     [Header("For Grappling")]
     [SerializeField] private Transform cam;
     public Transform shootPt;
-    [SerializeField] private Transform spotToSendPlayer;
+    private Transform spotToSendPlayer;
     [SerializeField] private LayerMask grapplable;
 
     [SerializeField] private float maxGrappleDistance;
@@ -37,7 +39,7 @@ public class GrappleHook : MonoBehaviour
     internal Vector3 grapplePoint;
 
     [SerializeField] private float grapplingCd;
-    private float grapplingCdTimer;
+    private float grapplingCdTimer = 0f;
 
     internal bool grappling;
 
@@ -73,12 +75,19 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
+        Debug.Log(Time.timeScale);
 
         //Gabe code (hi) for crossheir color
         RaycastHit hit;
 
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, grapplable)) crossHair.GetComponent<Image>().color = Color.red;
         else crossHair.GetComponent<Image>().color = Color.green;
+
+        if(rb.velocity.magnitude > speedUIMagnitude){
+            speedParticles.SetActive(true);
+        }else{
+            speedParticles.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -164,9 +173,11 @@ public class GrappleHook : MonoBehaviour
         if(grapplingCdTimer > 0 || currentSlowTimeLeft <= 0) return;
 
         if(Time.timeScale < 1) {
-            StopCoroutine(GrappleTimeSlow());
-            StartCoroutine(GrappleTimeNormal());
+            StopAllCoroutines();
             isSlowed = false;
+            crossHair.enabled = false;
+            Time.timeScale = 1f;
+            RollingCameraSettings();
         } 
 
         grappling = true;
