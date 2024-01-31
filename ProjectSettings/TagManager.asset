@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Grapplable
   - Player
-  - 
+  - ParticleSpeed
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: particle layer
+    uniqueID: 2006175579
+    locked: 0
+  - name: ParticleSpeed
+    uniqueID: 4259258863
     locked: 0

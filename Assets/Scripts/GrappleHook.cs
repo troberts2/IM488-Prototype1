@@ -76,7 +76,6 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
-        Debug.Log(Time.timeScale);
 
         //Gabe code (hi) for crossheir color
         RaycastHit hit;
@@ -179,7 +178,7 @@ public class GrappleHook : MonoBehaviour
             crossHair.enabled = false;
             Time.timeScale = 1f;
             RollingCameraSettings();
-        } 
+        }
 
         grappling = true;
         RaycastHit hit;
