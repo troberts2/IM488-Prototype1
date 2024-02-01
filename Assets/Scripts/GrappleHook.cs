@@ -17,7 +17,7 @@ public class GrappleHook : MonoBehaviour
 
 
     //Time stuff
-    internal bool isSlowed = false;
+    private bool isSlowed = false;
     [SerializeField] private float timeSlowPercentage = .2f; //use values 0-1 (think of it as percentage)
     [SerializeField] private float maxSlowTime = 3f;
     [SerializeField] private float currentSlowTimeLeft;
