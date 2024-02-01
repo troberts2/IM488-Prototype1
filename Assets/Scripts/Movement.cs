@@ -19,6 +19,7 @@ public class Movement : MonoBehaviour
     private Vector3 curVelocity;
 
     private bool grounded;
+    private bool boostFloor;
     private bool boosted;
 
     public GameObject visual; //defined in prefab
@@ -39,7 +40,7 @@ public class Movement : MonoBehaviour
     {
         if (grappleHook.isSlowed)
         {
-            moveSpeed = curSpeed/2;
+            moveSpeed = curSpeed / 2;
         }
         else
         {
@@ -47,10 +48,17 @@ public class Movement : MonoBehaviour
         }
         LeftRightMove();
         CapVelocity();
+
+        if (boostFloor)
+        {
+            boosted = true;
+        }
+
     }
 
-    private void LeftRightMove(){
-        if(grappleHook.grappling) return;
+    private void LeftRightMove()
+    {
+        if (grappleHook.grappling) return;
         //movement + tilt
         if (Input.GetKey(KeyCode.D))
         {
@@ -102,18 +110,38 @@ public class Movement : MonoBehaviour
         grounded = true;
         if (collision.gameObject.layer == 8)
         {
-            boosted = true;
-            Debug.Log("you're boosted!");
+            boostFloor = true;
         }
         else
         {
-            boosted = false;
+            boostFloor = false;
         }
+
+
     }
 
     private void OnCollisionExit(Collision collision)
     {
         grounded = false;
+        boostFloor = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Boost")
+        {
+            boosted = true;
+            StartCoroutine("Boost");
+        }
+    }
+
+    IEnumerator Boost()
+    {
+        rb.velocity = new Vector3(0, -boostedCap, boostedCap);
+
+        yield return new WaitForSecondsRealtime(3);
+
         boosted = false;
     }
+
 }
