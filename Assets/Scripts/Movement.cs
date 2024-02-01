@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     private Rigidbody rb;
 
     public float moveSpeed; //a good movespeed is 2;
+    private float curSpeed;
     public float groundedCap;
     public float boostedCap;
     public float airborneCap;
@@ -18,7 +19,7 @@ public class Movement : MonoBehaviour
     private Vector3 curVelocity;
 
     private bool grounded;
-    private bool velocityCapMet;
+    private bool boostFloor;
     private bool boosted;
 
     public GameObject visual; //defined in prefab
@@ -30,30 +31,48 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         grappleHook = GetComponent<GrappleHook>();
+
+        curSpeed = moveSpeed;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (grappleHook.isSlowed)
+        {
+            moveSpeed = curSpeed / 2;
+        }
+        else
+        {
+            moveSpeed = curSpeed;
+        }
         LeftRightMove();
         CapVelocity();
+
+        if (boostFloor)
+        {
+            boosted = true;
+        }
+
     }
 
-    private void LeftRightMove(){
-        if(grappleHook.grappling) return;
+    private void LeftRightMove()
+    {
+        if (grappleHook.grappling) return;
         //movement + tilt
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += new Vector3(moveSpeed/100, 0, 0);
+            rb.AddForce(new Vector3(moveSpeed, 0, 0));
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 65), 0.1f);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.position += new Vector3(-moveSpeed/100, 0, 0);
+            rb.AddForce(new Vector3(-moveSpeed, 0, 0));
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 115), 0.1f);
         }
         else
         {
+            rb.velocity.Normalize();
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 90), 0.1f);
         }
     }
@@ -91,18 +110,38 @@ public class Movement : MonoBehaviour
         grounded = true;
         if (collision.gameObject.layer == 8)
         {
-            boosted = true;
-            Debug.Log("you're boosted!");
+            boostFloor = true;
         }
         else
         {
-            boosted = false;
+            boostFloor = false;
         }
+
+
     }
 
     private void OnCollisionExit(Collision collision)
     {
         grounded = false;
+        boostFloor = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Boost")
+        {
+            boosted = true;
+            StartCoroutine("Boost");
+        }
+    }
+
+    IEnumerator Boost()
+    {
+        rb.velocity = new Vector3(0, -boostedCap, boostedCap);
+
+        yield return new WaitForSecondsRealtime(3);
+
         boosted = false;
     }
+
 }
