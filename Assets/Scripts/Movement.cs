@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     private Rigidbody rb;
 
     public float moveSpeed; //a good movespeed is 2;
+    private float curSpeed;
     public float groundedCap;
     public float boostedCap;
     public float airborneCap;
@@ -18,7 +19,6 @@ public class Movement : MonoBehaviour
     private Vector3 curVelocity;
 
     private bool grounded;
-    private bool velocityCapMet;
     private bool boosted;
 
     public GameObject visual; //defined in prefab
@@ -30,11 +30,21 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         grappleHook = GetComponent<GrappleHook>();
+
+        curSpeed = moveSpeed;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (grappleHook.isSlowed)
+        {
+            moveSpeed = curSpeed/2;
+        }
+        else
+        {
+            moveSpeed = curSpeed;
+        }
         LeftRightMove();
         CapVelocity();
     }
@@ -44,16 +54,17 @@ public class Movement : MonoBehaviour
         //movement + tilt
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += new Vector3(moveSpeed/100, 0, 0);
+            rb.AddForce(new Vector3(moveSpeed, 0, 0));
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 65), 0.1f);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.position += new Vector3(-moveSpeed/100, 0, 0);
+            rb.AddForce(new Vector3(-moveSpeed, 0, 0));
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 115), 0.1f);
         }
         else
         {
+            rb.velocity.Normalize();
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 90), 0.1f);
         }
     }
