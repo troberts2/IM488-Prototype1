@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     public float groundedCap;
     public float boostedCap;
     public float airborneCap;
+    public float boostTime;
 
     private Vector3 curVelocity;
 
@@ -141,7 +142,7 @@ public class Movement : MonoBehaviour
     {
         rb.velocity = new Vector3(0, -boostedCap, boostedCap);
 
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(boostTime);
 
         boosted = false;
     }
