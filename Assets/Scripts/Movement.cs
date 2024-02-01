@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     public float groundedCap;
     public float boostedCap;
     public float airborneCap;
+    public float boostTime;
 
     private Vector3 curVelocity;
 
@@ -63,11 +64,13 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             rb.AddForce(new Vector3(moveSpeed, 0, 0));
+            rb.MovePosition(rb.position + Vector3.right * Time.deltaTime);
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 65), 0.1f);
         }
         else if (Input.GetKey(KeyCode.A))
         {
             rb.AddForce(new Vector3(-moveSpeed, 0, 0));
+            rb.MovePosition(rb.position + Vector3.left * Time.deltaTime);
             visual.transform.rotation = Quaternion.Lerp(visual.transform.rotation, Quaternion.Euler(90, 0, 115), 0.1f);
         }
         else
@@ -139,7 +142,7 @@ public class Movement : MonoBehaviour
     {
         rb.velocity = new Vector3(0, -boostedCap, boostedCap);
 
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(boostTime);
 
         boosted = false;
     }
