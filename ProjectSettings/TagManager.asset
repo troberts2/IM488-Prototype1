@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Victory
+  - Enemy
+  - Boost
   layers:
   - Default
   - TransparentFX
@@ -13,8 +16,8 @@ TagManager:
   - UI
   - Grapplable
   - Player
+  - SpeedFloor
   - ParticleSpeed
-  - 
   - 
   - 
   - 

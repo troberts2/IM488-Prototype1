@@ -17,7 +17,7 @@ public class GrappleHook : MonoBehaviour
 
 
     //Time stuff
-    private bool isSlowed = false;
+    internal bool isSlowed = false;
     [SerializeField] private float timeSlowPercentage = .2f; //use values 0-1 (think of it as percentage)
     [SerializeField] private float maxSlowTime = 3f;
     [SerializeField] private float currentSlowTimeLeft;
@@ -45,7 +45,6 @@ public class GrappleHook : MonoBehaviour
 
     //temp before combine with other player move script
     private bool freeze;
-    private bool activeGrapple;
     private bool enableMovementOnNextTouch;
 
 
@@ -122,7 +121,7 @@ public class GrappleHook : MonoBehaviour
         }
         slowTimeUI.fillAmount = currentSlowTimeLeft/maxSlowTime;
         if(currentSlowTimeLeft <= 0 && isSlowed){
-            StopCoroutine(GrappleTimeSlow());
+            StopAllCoroutines();
             StartCoroutine(GrappleTimeNormal());
             isSlowed = false;
         }
@@ -217,7 +216,6 @@ public class GrappleHook : MonoBehaviour
 
     public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
-        activeGrapple = true;
 
         velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
         Invoke(nameof(SetVelocity), 0.1f);
@@ -236,7 +234,6 @@ public class GrappleHook : MonoBehaviour
 
     public void ResetRestrictions()
     {
-        activeGrapple = false;
         playerFreeLook.m_Lens.FieldOfView = 60f;
         
     }
