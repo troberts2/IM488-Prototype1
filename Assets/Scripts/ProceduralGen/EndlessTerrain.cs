@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
-    const float scale = 5f;
+    const float scale = 2f;
 
-    const float viewerMoveThresholdForChunkUpdate = 25f;
+    const float viewerMoveThresholdForChunkUpdate = 0f;
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public LODinfo[] detailLevels;
@@ -73,8 +73,11 @@ public class EndlessTerrain : MonoBehaviour
 
         MeshRenderer meshRenderer;
         MeshFilter meshFilter;
+        MeshCollider meshCollider;
+
         LODinfo[] detailLevels;
         LODMesh[] lodMeshes;
+        LODMesh collisionLODMesh;
 
         MapData mapData;
         bool mapDataRecieved;
@@ -90,6 +93,7 @@ public class EndlessTerrain : MonoBehaviour
             meshObject = new GameObject("Terrain Chunk");
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshFilter = meshObject.AddComponent<MeshFilter>();
+            meshCollider = meshObject.AddComponent<MeshCollider>();
             meshRenderer.material = material;
 
             meshObject.transform.position = posV3 * scale;
@@ -100,6 +104,9 @@ public class EndlessTerrain : MonoBehaviour
             lodMeshes = new LODMesh[detailLevels.Length];
             for(int i = 0; i < detailLevels.Length; i++){
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk);
+                if(detailLevels[i].useForCollider){
+                    collisionLODMesh = lodMeshes[i];
+                }
             } 
 
             mapGenerator.RequestMapData(pos, OnMapDataRecieved);
@@ -122,6 +129,8 @@ public class EndlessTerrain : MonoBehaviour
                 bool visible = viewerDstFromNearestEdge <= maxViewDist;
                 float viewerDstFromNearestEdgeX = Mathf.Abs(pos.x - viewerPos.x);
                 bool xVisible = viewerDstFromNearestEdgeX <= maxViewDistX;
+                float viewerDstFromNearestEdgeZ = (pos.y - viewerPos.y);
+                bool yDestroy = viewerDstFromNearestEdgeZ <= -100;
 
                 if(visible && xVisible){
                     int lodIndex = 0;
@@ -135,21 +144,42 @@ public class EndlessTerrain : MonoBehaviour
                     }
                     if(lodIndex != previousLODIndex){
                         LODMesh lODMesh = lodMeshes[lodIndex];
-                        if(lODMesh.hasMesh){
+                        if(lODMesh.hasMesh && meshFilter != null){
                             meshFilter.mesh = lODMesh.mesh;
                         }else if(!lODMesh.hasRequestedMesh){
                             lODMesh.RequestedMesh(mapData);
                         }
                     }
+                    if(lodIndex == 0){
+                        if(collisionLODMesh.hasMesh && meshCollider != null){
+                            meshCollider.sharedMesh = collisionLODMesh.mesh;
+                        }
+                        else if(!collisionLODMesh.hasRequestedMesh){
+                            collisionLODMesh.RequestedMesh(mapData);
+                        }
+                    }
                     terrainChunksVisibleLastUpdate.Add(this);
                 }
                 SetVisible(visible && xVisible);
+                DestroyIfBehind(yDestroy);
+                
             }
 
         }
+        public void DestroyIfBehind(bool destroy){
+            if(destroy){
+                terrainChunksVisibleLastUpdate.Remove(this);
+                Destroy(meshObject);
+                Debug.Log("Destroyed mesh");
+            }
+            
+        }
 
         public void SetVisible(bool visible){
-            meshObject.SetActive(visible);
+            if(meshObject != null){
+                meshObject.SetActive(visible);
+            }
+            
         }
 
         public bool IsVisible(){
@@ -184,5 +214,6 @@ public class EndlessTerrain : MonoBehaviour
     public struct LODinfo{
         public int lod;
         public float visibleDstThreshold;
+        public bool useForCollider;
     }
 }

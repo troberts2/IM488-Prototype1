@@ -35,12 +35,15 @@ public class MapGenerator : MonoBehaviour {
 
     float[,] falloffMap;
 
+	public GameObject player;
+
 	Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
 	Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
     private void Awake() {
         falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
     }
+	
 
 	public void DrawMapInEditor() {
 		MapData mapData = GenerateMapData (Vector2.zero);

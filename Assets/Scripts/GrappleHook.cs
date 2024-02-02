@@ -46,6 +46,7 @@ public class GrappleHook : MonoBehaviour
     //temp before combine with other player move script
     private bool freeze;
     private bool enableMovementOnNextTouch;
+    [SerializeField] private bool isEndless;
 
 
     private void Start() {
@@ -75,6 +76,14 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
+        Debug.Log(rb.velocity.magnitude);
+        if(isEndless){
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -20, 20), transform.position.y, transform.position.z);
+            if(rb.velocity.magnitude > 25){
+                rb.velocity = rb.velocity.normalized * 25;
+            }
+        }
+        
 
         //Gabe code (hi) for crossheir color
         RaycastHit hit;
