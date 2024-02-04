@@ -7,6 +7,7 @@ TagManager:
   - Victory
   - Enemy
   - Boost
+  - Obstacle
   layers:
   - Default
   - TransparentFX
