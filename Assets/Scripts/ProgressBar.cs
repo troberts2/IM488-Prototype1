@@ -17,6 +17,7 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Image fillBar;
 
     private WinCondition win;
+    private bool won;
 
     // Start is called before the first frame update
     void Start()
@@ -40,9 +41,9 @@ public class ProgressBar : MonoBehaviour
 
         FillCheck();
 
-        if (curBar <= 5)
+        if (curBar <= 5 && !won)
         {
-            Debug.Log("you should win");
+            won = true;
             StartCoroutine(win.Win());
         }
     }
