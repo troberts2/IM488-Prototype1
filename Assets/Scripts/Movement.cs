@@ -74,8 +74,6 @@ public class Movement : MonoBehaviour
             {
                 stagnant = true;
                 StartCoroutine(HealthTick());
-
-                Debug.Log("ur stagnant");
             }
         }
         else

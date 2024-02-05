@@ -14,6 +14,7 @@ public class HealthManager : MonoBehaviour
     private void Start()
     {
         move = FindObjectOfType<Movement>();
+        loss = FindObjectOfType<LossCondition>();
     }
 
     public void UpdateHealth()

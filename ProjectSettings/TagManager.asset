@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Boost
   - Obstacle
+  - Mob
   layers:
   - Default
   - TransparentFX
