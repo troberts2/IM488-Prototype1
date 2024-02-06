@@ -21,6 +21,7 @@ public class SaveData : MonoBehaviour
 
     public void SaveToJson()
     {
+        
         timeFloat = Timer.instance.timer;
         if (compTime > timeFloat)
         {
