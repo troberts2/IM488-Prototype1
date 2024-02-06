@@ -13,13 +13,15 @@ public class WinCondition : MonoBehaviour
         cam = FindObjectOfType<CinemachineFreeLook>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Victory"))
+        if (other.CompareTag("Victory"))
         {
             StartCoroutine(Win());
+            Debug.Log("Hey");
         }
     }
+
 
     public IEnumerator Win()
     {
