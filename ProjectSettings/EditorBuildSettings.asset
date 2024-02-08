@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TommyTest.unity
     guid: e0f08acc0ac8d014a936be7274b7e8da
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: b4286a00045e7f741aa7167e9930d0db
   m_configObjects: {}
