@@ -9,6 +9,7 @@ TagManager:
   - Boost
   - Obstacle
   - Mob
+  - Floor
   layers:
   - Default
   - TransparentFX

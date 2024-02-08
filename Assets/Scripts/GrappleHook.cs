@@ -43,6 +43,11 @@ public class GrappleHook : MonoBehaviour
 
     internal bool grappling;
 
+    public AudioClip timeStop;
+    public AudioClip grapple;
+
+    Vector3 camPos;
+
     //temp before combine with other player move script
     private bool freeze;
     private bool enableMovementOnNextTouch;
@@ -60,7 +65,9 @@ public class GrappleHook : MonoBehaviour
     private void Update(){
         if(Input.GetKeyDown(KeyCode.Mouse0) && isSlowed) StartGrapple();
 
-        if(grapplingCdTimer > 0) grapplingCdTimer -= Time.deltaTime;
+        camPos = Camera.main.transform.position;
+
+        if (grapplingCdTimer > 0) grapplingCdTimer -= Time.deltaTime;
 
         if(freeze) rb.velocity = Vector3.zero;
 
@@ -98,7 +105,8 @@ public class GrappleHook : MonoBehaviour
         crossHair.enabled = true;
         playerFreeLook.m_Lens.FieldOfView = grappleFov;
         FreeLookCameraSettings();
-        for(float i = 1; i >= timeSlowPercentage; i -= Time.deltaTime){
+        AudioSource.PlayClipAtPoint(timeStop, camPos);
+        for (float i = 1; i >= timeSlowPercentage; i -= Time.deltaTime){
             SetTimeScale(i);
             yield return null;
         }
@@ -196,6 +204,7 @@ public class GrappleHook : MonoBehaviour
 
     private void ExecuteGrapple(){
         freeze = false;
+        AudioSource.PlayClipAtPoint(grapple, camPos);
         grapplingCdTimer = grapplingCd;
         Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y -1f, transform.position.z);
 
