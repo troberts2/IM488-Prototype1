@@ -8,6 +8,8 @@ public class WinCondition : MonoBehaviour
 {
     public CinemachineFreeLook cam;
 
+    public bool won;
+
     private void Start()
     {
         cam = FindObjectOfType<CinemachineFreeLook>();
@@ -23,11 +25,16 @@ public class WinCondition : MonoBehaviour
 
     public IEnumerator Win()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        cam.enabled = false;
-        yield return new WaitForSecondsRealtime(3);
+        if (!won)
+        {
+            won = true;
 
-        SceneManager.LoadScene("Win Scene");
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            cam.enabled = false;
+            yield return new WaitForSecondsRealtime(3);
+
+            SceneManager.LoadScene("Win Scene");
+        }
     }
 }

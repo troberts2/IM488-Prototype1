@@ -9,6 +9,10 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform curPoint;
 
+    [SerializeField] private RectTransform barStart;
+    [SerializeField] private RectTransform barEnd;
+    [SerializeField] private RectTransform playerToken;
+
     private GameObject cheese;
 
     public float maxBar;
@@ -29,6 +33,9 @@ public class ProgressBar : MonoBehaviour
         maxBar = Vector3.Distance(startPoint.position, endPoint.position);
 
         win = FindObjectOfType<WinCondition>();
+
+        playerToken.position = barStart.position;
+        
     }
 
     // Update is called once per frame
@@ -40,11 +47,17 @@ public class ProgressBar : MonoBehaviour
 
         FillCheck();
 
-        if (curBar <= 5)
+        if (curBar <= 3 && !win.won)
         {
-            Debug.Log("you should win");
+            win.won = true;
             StartCoroutine(win.Win());
         }
+
+        float barLine = curBar / maxBar;
+        Debug.Log( 1 - (barLine));
+        playerToken.localPosition = new Vector3((1 - barLine) * 200, playerToken.localPosition.y);
+
+
     }
 
     private void FillCheck()
