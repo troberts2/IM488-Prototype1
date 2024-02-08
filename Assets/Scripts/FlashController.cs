@@ -10,10 +10,10 @@ public class FlashController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            flashImage.StartFlash(.25f, .5f, newColor);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    flashImage.StartFlash(.25f, .5f, newColor);
+        //}
 
     }
 }
