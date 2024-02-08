@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class FlashImage : MonoBehaviour
 {
 
-    Image image = null;
+    public Image image = null;
     Coroutine currentFlashRoutine = null;
 
     private void Awake()

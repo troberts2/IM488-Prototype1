@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
@@ -11,10 +12,15 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private GameObject hpM;
     [SerializeField] private GameObject hpR;
 
+    public FlashImage flashImage;
+
     private void Start()
     {
         move = FindObjectOfType<Movement>();
         loss = FindObjectOfType<LossCondition>();
+        flashImage = FindObjectOfType<FlashImage>();
+
+        flashImage.image.enabled = false;
     }
 
     public void UpdateHealth()

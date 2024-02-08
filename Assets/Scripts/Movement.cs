@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour
     private bool boosted;
     private bool immune;
     private bool stagnant;
+    [SerializeField] private bool debugTickDamageOff;
 
     public GameObject visual; //defined in prefab
     private Material cheese;
@@ -184,6 +185,8 @@ public class Movement : MonoBehaviour
         hp--;
         immune = true;
         health.UpdateHealth();
+        health.flashImage.image.enabled = true;
+        health.flashImage.StartFlash(0.5f, 0.5f, Color.red);
 
         StartCoroutine(Blink());
 
@@ -207,7 +210,7 @@ public class Movement : MonoBehaviour
     IEnumerator HealthTick()
     {
         yield return new WaitForSecondsRealtime(3);
-        if (stagnant)
+        if (stagnant && !debugTickDamageOff)
         {
             hp--;
             health.UpdateHealth();
