@@ -6,7 +6,7 @@ public class TerrainChunk {
 	public event System.Action<TerrainChunk, bool> onVisibilityChanged;
 	public Vector2 coord;
 	 
-	GameObject meshObject;
+	public GameObject meshObject;
 	Vector2 sampleCentre;
 	public Bounds bounds;
 
@@ -23,6 +23,7 @@ public class TerrainChunk {
 	int previousLODIndex = -1;
 	bool hasSetCollider;
 	float maxViewDst;
+	float maxViewDstX = 20f;
 
 	HeightMapSettings heightMapSettings;
 	MeshSettings meshSettings;
@@ -92,9 +93,12 @@ public class TerrainChunk {
 	public void UpdateTerrainChunk() {
 		if (heightMapReceived) {
 			float viewerDstFromNearestEdge = Mathf.Sqrt (bounds.SqrDistance (viewerPosition));
+			float viewerDstFromNearestEdgeX = Mathf.Abs(sampleCentre.x - viewerPosition.x);
+			bool xVisible = viewerDstFromNearestEdgeX <= maxViewDstX;
 
 			bool wasVisible = IsVisible ();
 			bool visible = viewerDstFromNearestEdge <= maxViewDst;
+			visible = visible && xVisible;
 
 			if (visible) {
 				int lodIndex = 0;
@@ -152,7 +156,9 @@ public class TerrainChunk {
 	public void SetVisible(bool visible) {
 		meshObject.SetActive (visible);
 		if(visible){
-			meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
+			if(Mathf.Abs(viewer.position.x - meshObject.transform.position.x) < 10){
+				meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
+			}
 		}
 	}
 

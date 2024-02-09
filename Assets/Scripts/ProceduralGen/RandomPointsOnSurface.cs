@@ -12,7 +12,7 @@ public class RandomPointsOnSurface : MonoBehaviour
     [Tooltip("Maximal number of iterations to find the points.")]
     public int maxIterations = 200;
     [Tooltip("Size of the generated sphere primitives.")]
-    public Vector3 scalePrimitives = new Vector3(2f, 2f, 2f);
+    public Vector3 scalePrimitives = new Vector3(100f, 100f, 100f);
     [Tooltip("Color of the generated sphere primitives.")]
     public Color colorPrimitives = Color.red;
  
@@ -21,6 +21,7 @@ public class RandomPointsOnSurface : MonoBehaviour
     private float bboxScale = 1f;
 
     public TerrainChunk terrainChunk;
+
  
     void Start()
     {
@@ -62,12 +63,10 @@ public class RandomPointsOnSurface : MonoBehaviour
             if (true)
             {
                 indexPoints++;
-                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                Debug.Log(m_collider.bounds.size);
-                sphere.transform.position = pointRandom;
-                sphere.transform.localScale = scalePrimitives;
-                sphere.GetComponent<Renderer>().material.color = colorPrimitives;
-                sphere.GetComponent<Renderer>().material.color = new Color(Random.value, Random.value, Random.value);
+                GameObject hazard = Instantiate(FindObjectOfType<HazardsData>().hazards[Random.Range(0, FindObjectOfType<HazardsData>().hazards.Length)], terrainChunk.meshObject.transform);
+                hazard.SetActive(true);
+                hazard.transform.position = pointRandom;
+                hazard.transform.localScale = scalePrimitives;
             }
         } while ((indexPoints < numPoints) && (indexLoops < maxIterations));
     }
@@ -107,7 +106,7 @@ public class RandomPointsOnSurface : MonoBehaviour
         Vector3 point = new Vector3(
         Random.Range( -extents.x, extents.x ),
         Random.Range( -extents.y, extents.y ),
-        Random.Range( -extents.z, extents.z )
+        Random.Range( -extents.y, extents.y )
         )  + bounds.center;
         return transform.TransformPoint( point );
     }
