@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8023543400131497807}
   - component: {fileID: 2859495929628338884}
   - component: {fileID: 3519234134227935700}
+  - component: {fileID: 6232020860340364711}
   m_Layer: 3
   m_Name: CheeseChaseRock1
   m_TagString: Obstacle
@@ -106,3 +107,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: f983ccf019fa3844eb2776a117c71a9e, type: 3}
+--- !u!114 &6232020860340364711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2832692191132788244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9afa932e13743944e89923e307ba304d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

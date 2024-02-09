@@ -84,10 +84,10 @@ public class GrappleHook : MonoBehaviour
         } 
         UseSlowTime();
         if(isEndless){
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -20, 20), transform.position.y, transform.position.z);
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -24, 24), transform.position.y, transform.position.z);
             //rb.AddForce(new Vector3(0, 0, 20f), ForceMode.Force);
-            if(rb.velocity.magnitude > 25){
-                rb.velocity = rb.velocity.normalized * 25;
+            if(rb.velocity.magnitude > 25 && !grappling){
+                //rb.velocity = rb.velocity.normalized * 25;
             }
         }
         
@@ -222,7 +222,7 @@ public class GrappleHook : MonoBehaviour
 
         if(grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
 
-        JumpToPosition(spotToSendPlayer.position, highestPointOnArc);
+        JumpToPosition(grapplePoint, highestPointOnArc);
 
         Invoke(nameof(StopGrapple), 1f);
 

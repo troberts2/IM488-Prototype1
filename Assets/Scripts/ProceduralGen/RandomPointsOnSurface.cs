@@ -8,11 +8,11 @@ public class RandomPointsOnSurface : MonoBehaviour
     [Tooltip("Maximal high of the surface.")]
     public float surfaceHigh = 1f; //
     [Tooltip("Number of random points to generate on the surface.")]
-    public int numPoints = 20;
+    public int numPoints = 8;
     [Tooltip("Maximal number of iterations to find the points.")]
-    public int maxIterations = 200;
+    public int maxIterations = 500;
     [Tooltip("Size of the generated sphere primitives.")]
-    public Vector3 scalePrimitives = new Vector3(100f, 100f, 100f);
+    public Vector3 scalePrimitives = new Vector3(150f, 150f, 150f);
     [Tooltip("Color of the generated sphere primitives.")]
     public Color colorPrimitives = Color.red;
  
@@ -38,14 +38,14 @@ public class RandomPointsOnSurface : MonoBehaviour
             isUnityTerrain = true;
         }
  
-        GenerateRandomPositions();
+        GenerateRandomRocks();
+        GenerateRandomGrapples();
     }
  
-    void GenerateRandomPositions()
+    void GenerateRandomRocks()
     {
         Vector3 pointRandom;
         Vector3 pointOnSurface = Vector3.zero;
-        bool pointFound = false;
         int indexPoints = 0;
         int indexLoops = 0;
         do
@@ -58,54 +58,53 @@ public class RandomPointsOnSurface : MonoBehaviour
             if (isUnityTerrain) pointRandom = RandomPointInBounds(m_collider.bounds, bboxScale);
             else pointRandom = RandomPointInBounds(m_collider.bounds, m_collider.bounds.size.magnitude) - transform.position;
  
-            pointFound = GetRandomPointOnColliderSurface(pointRandom, out pointOnSurface);
- 
             if (true)
             {
                 indexPoints++;
-                GameObject hazard = Instantiate(FindObjectOfType<HazardsData>().hazards[Random.Range(0, FindObjectOfType<HazardsData>().hazards.Length)], terrainChunk.meshObject.transform);
+                GameObject hazard = Instantiate(FindObjectOfType<HazardsData>().hazards[Random.Range(0, FindObjectOfType<HazardsData>().hazards.Length)],  terrainChunk.meshObject.transform);
                 hazard.SetActive(true);
                 hazard.transform.position = pointRandom;
                 hazard.transform.localScale = scalePrimitives;
             }
         } while ((indexPoints < numPoints) && (indexLoops < maxIterations));
     }
- 
-    private bool GetRandomPointOnColliderSurface(Vector3 point, out Vector3 pointSurface)
+
+    void GenerateRandomGrapples()
     {
- 
+        Vector3 pointRandom;
         Vector3 pointOnSurface = Vector3.zero;
-        RaycastHit hit;
-        bool pointFound = false;
-        // Raycast against the surface of the transform
-        Debug.DrawRay(new Vector3(point.x, point.y - surfaceHigh, point.z), transform.up * surfaceHigh, Color.green, 5f);
-        if (Physics.Raycast(new Vector3(point.x, point.y - surfaceHigh, point.z), transform.up, out hit, Mathf.Infinity))
+        int indexPoints = 0;
+        int indexLoops = 0;
+        do
         {
-            Debug.Log("Found point up");
-            pointOnSurface = hit.point;
-            pointFound = true;
-        }
-        else
-        {
-            Debug.DrawRay(new Vector3(point.x, point.y - surfaceHigh, point.z), -transform.up * surfaceHigh, Color.red, 5f);
-            if (Physics.Raycast(new Vector3(point.x, point.y - surfaceHigh, point.z), -transform.up, out hit, Mathf.Infinity))
-            {
-                Debug.Log("Found point -up");
-                pointOnSurface = hit.point;
-                pointFound = true;
-            }
-        }
+            indexLoops++;
+            // Double the size of the bounding box here to get better results if not a Unity terrain
+            if (isUnityTerrain) bboxScale = 1f;
+            else bboxScale = 2f;
  
-        pointSurface = pointOnSurface;
-        return pointFound;
+            if (isUnityTerrain) pointRandom = RandomPointInBounds(m_collider.bounds, bboxScale);
+            else pointRandom = RandomPointInBounds(m_collider.bounds, m_collider.bounds.size.magnitude) - transform.position;
+            if(Random.Range(0, 10) < 3){
+                if (true)
+                {
+                    indexPoints++;
+                    GameObject grapple = Instantiate(FindObjectOfType<HazardsData>().grapple,  terrainChunk.meshObject.transform);
+                    grapple.SetActive(true);
+                    grapple.transform.position = pointRandom;
+                    grapple.transform.localScale = new Vector3(1f, 1f, 1f);
+                } 
+            }
+
+        } while ((indexPoints < 1) && (indexLoops < 100));
     }
+
  
     private Vector3 RandomPointInBounds(Bounds bounds, float scale)
     {
         Vector3 extents = terrainChunk.bounds.size /2f;
         Vector3 point = new Vector3(
         Random.Range( -extents.x, extents.x ),
-        Random.Range( -extents.y, extents.y ),
+        15f,
         Random.Range( -extents.y, extents.y )
         )  + bounds.center;
         return transform.TransformPoint( point );

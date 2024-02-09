@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TerrainChunk {
 	
-	const float colliderGenerationDistanceThreshold = 5;
+	const float colliderGenerationDistanceThreshold = 200f;
 	public event System.Action<TerrainChunk, bool> onVisibilityChanged;
 	public Vector2 coord;
 	 
@@ -23,7 +23,7 @@ public class TerrainChunk {
 	int previousLODIndex = -1;
 	bool hasSetCollider;
 	float maxViewDst;
-	float maxViewDstX = 20f;
+	float maxViewDstX = 24f;
 
 	HeightMapSettings heightMapSettings;
 	MeshSettings meshSettings;
@@ -50,8 +50,6 @@ public class TerrainChunk {
 		meshObject.transform.parent = parent;
 		meshObject.transform.position = new Vector3(position.x,0,position.y);
 		meshCollider = meshObject.AddComponent<MeshCollider>();
-		meshCollider.convex = true;
-		meshCollider.sharedMesh = meshFilter.mesh;
 		meshObject.AddComponent<RandomPointsOnSurface>();
 		meshObject.GetComponent<RandomPointsOnSurface>().terrainChunk = this;
 		
@@ -100,7 +98,7 @@ public class TerrainChunk {
 			bool visible = viewerDstFromNearestEdge <= maxViewDst;
 			visible = visible && xVisible;
 
-			if (visible) {
+			if (visible && meshObject != null) {
 				int lodIndex = 0;
 
 				for (int i = 0; i < detailLevels.Length - 1; i++) {
@@ -148,6 +146,9 @@ public class TerrainChunk {
 				if (lodMeshes [colliderLODIndex].hasMesh) {
 					meshCollider.sharedMesh = lodMeshes [colliderLODIndex].mesh;
 					hasSetCollider = true;
+					if(Mathf.Abs(viewer.position.x - meshObject.transform.position.x) < 10){
+						meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
+					}
 				}
 			}
 		}
@@ -156,14 +157,15 @@ public class TerrainChunk {
 	public void SetVisible(bool visible) {
 		meshObject.SetActive (visible);
 		if(visible){
-			if(Mathf.Abs(viewer.position.x - meshObject.transform.position.x) < 10){
-				meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
+			if(Mathf.Abs(viewer.position.x - meshObject.transform.position.x) < 10 ){
+				//meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
 			}
 		}
 	}
 
 	public bool IsVisible() {
-		return meshObject.activeSelf;
+		if(meshObject != null) return meshObject.activeSelf;
+		return false;
 	}
 
 }
