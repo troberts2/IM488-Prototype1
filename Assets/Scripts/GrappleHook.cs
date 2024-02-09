@@ -76,9 +76,9 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
-        Debug.Log(rb.velocity.magnitude);
         if(isEndless){
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -20, 20), transform.position.y, transform.position.z);
+            //rb.AddForce(new Vector3(0, 0, 20f), ForceMode.Force);
             if(rb.velocity.magnitude > 25){
                 rb.velocity = rb.velocity.normalized * 25;
             }
