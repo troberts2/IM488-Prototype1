@@ -5,12 +5,13 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
+    public static Timer instance;
     private float timeDuration = 99f * 60f;
 
     [SerializeField]
     bool countDown = true;
 
-    private float timer;
+    public float timer;
 
     [SerializeField]
     private TextMeshProUGUI firstMinute;

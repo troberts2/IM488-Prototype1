@@ -7,6 +7,9 @@ TagManager:
   - Victory
   - Enemy
   - Boost
+  - Obstacle
+  - Mob
+  - Floor
   layers:
   - Default
   - TransparentFX

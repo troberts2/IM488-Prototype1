@@ -17,23 +17,36 @@ public class Movement : MonoBehaviour
     public float airborneCap;
     public float boostTime;
 
+    internal float hp;
+    internal float hpMax;
+
     private Vector3 curVelocity;
 
     private bool grounded;
     private bool boostFloor;
     private bool boosted;
+    private bool immune;
+    private bool stagnant;
+    [SerializeField] private bool debugTickDamageOff;
 
     public GameObject visual; //defined in prefab
+    private Material cheese;
 
     private GrappleHook grappleHook;
+    private HealthManager health;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         grappleHook = GetComponent<GrappleHook>();
+        health = GetComponentInChildren<HealthManager>();
 
         curSpeed = moveSpeed;
+        hpMax = 3; //make public later so that design can change?
+        hp = hpMax;
+
+        cheese = visual.GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
@@ -47,6 +60,7 @@ public class Movement : MonoBehaviour
         {
             moveSpeed = curSpeed;
         }
+
         LeftRightMove();
         CapVelocity();
 
@@ -55,6 +69,18 @@ public class Movement : MonoBehaviour
             boosted = true;
         }
 
+        if (rb.velocity.magnitude == 0)
+        {
+            if (!stagnant)
+            {
+                stagnant = true;
+                StartCoroutine(HealthTick());
+            }
+        }
+        else
+        {
+            stagnant = false;
+        }
     }
 
     private void LeftRightMove()
@@ -120,6 +146,10 @@ public class Movement : MonoBehaviour
             boostFloor = false;
         }
 
+        if (collision.gameObject.tag == "Obstacle" && !immune)
+        {
+            StartCoroutine("Hit");
+        }
 
     }
 
@@ -142,9 +172,49 @@ public class Movement : MonoBehaviour
     {
         rb.velocity = new Vector3(0, -boostedCap, boostedCap);
 
+        hp++;
+        health.UpdateHealth();
+
         yield return new WaitForSecondsRealtime(boostTime);
 
         boosted = false;
     }
 
+    IEnumerator Hit()
+    {
+        hp--;
+        immune = true;
+        health.UpdateHealth();
+        health.flashImage.image.enabled = true;
+        health.flashImage.StartFlash(0.5f, 0.5f, Color.red);
+
+        StartCoroutine(Blink());
+
+        yield return new WaitForSecondsRealtime(3);
+
+        immune = false;
+        cheese.color = new Color(cheese.color.r, cheese.color.g, cheese.color.b, 1);
+    }
+
+    IEnumerator Blink()
+    {
+        while (immune)
+        {
+            cheese.color = new Color(cheese.color.r, cheese.color.g, cheese.color.b, 0.5f);
+            yield return new WaitForSeconds(0.25f);
+            cheese.color = new Color(cheese.color.r, cheese.color.g, cheese.color.b, 1);
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
+
+    IEnumerator HealthTick()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        if (stagnant && !debugTickDamageOff)
+        {
+            hp--;
+            health.UpdateHealth();
+            StartCoroutine(HealthTick());
+        }
+    }
 }
