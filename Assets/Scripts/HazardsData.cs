@@ -6,4 +6,5 @@ public class HazardsData : MonoBehaviour
 {
     public GameObject[] hazards;
     public GameObject grapple;
+    public HeightMapSettings heightMapSettings;
 }

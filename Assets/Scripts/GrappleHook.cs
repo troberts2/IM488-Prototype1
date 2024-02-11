@@ -83,6 +83,7 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
+        Debug.Log(rb.velocity.magnitude);
         if(isEndless){
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -24, 24), transform.position.y, transform.position.z);
             //rb.AddForce(new Vector3(0, 0, 20f), ForceMode.Force);

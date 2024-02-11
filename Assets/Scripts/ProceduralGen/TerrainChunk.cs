@@ -23,7 +23,8 @@ public class TerrainChunk {
 	int previousLODIndex = -1;
 	bool hasSetCollider;
 	float maxViewDst;
-	float maxViewDstX = 24f;
+	float maxViewDstX = 96f;
+	public HazardsData hazardsData;
 
 	HeightMapSettings heightMapSettings;
 	MeshSettings meshSettings;
@@ -36,10 +37,19 @@ public class TerrainChunk {
 		this.heightMapSettings = heightMapSettings;
 		this.meshSettings = meshSettings;
 		this.viewer = viewer;
+		hazardsData = GameObject.FindObjectOfType<HazardsData>();
+
 
 		sampleCentre = coord * meshSettings.meshWorldSize / meshSettings.meshScale;
 		Vector2 position = coord * meshSettings.meshWorldSize ;
 		bounds = new Bounds(position,Vector2.one * meshSettings.meshWorldSize );
+
+		float viewerDstFromXGetBig = Mathf.Abs(sampleCentre.x - viewerPosition.x);
+		bool xGetBig = viewerDstFromXGetBig > 24;
+		if(xGetBig){
+			this.heightMapSettings = hazardsData.heightMapSettings;
+
+		}
 
 
 		meshObject = new GameObject("Terrain Chunk");
