@@ -8,4 +8,5 @@ public class HazardsData : MonoBehaviour
     public GameObject[] bigHazards;
     public GameObject grapple;
     public HeightMapSettings heightMapSettings;
+    public TextureData textureData;
 }

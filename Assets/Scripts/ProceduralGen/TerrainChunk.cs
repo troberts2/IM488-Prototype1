@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class TerrainChunk {
@@ -24,6 +25,7 @@ public class TerrainChunk {
 	bool hasSetCollider;
 	float maxViewDst;
 	float maxViewDstX = 96f;
+	public bool xGetBig;
 	public HazardsData hazardsData;
 
 	HeightMapSettings heightMapSettings;
@@ -45,10 +47,9 @@ public class TerrainChunk {
 		bounds = new Bounds(position,Vector2.one * meshSettings.meshWorldSize );
 
 		float viewerDstFromXGetBig = Mathf.Abs(sampleCentre.x - viewerPosition.x);
-		bool xGetBig = viewerDstFromXGetBig > 24;
+		xGetBig = viewerDstFromXGetBig > 24;
 		if(xGetBig){
 			this.heightMapSettings = hazardsData.heightMapSettings;
-
 		}
 
 

@@ -51,6 +51,7 @@ public class TerrainGenerator : MonoBehaviour {
 		if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate) {
 			viewerPositionOld = viewerPosition;
 			UpdateVisibleChunks ();
+			
 		}
 	}
 		
