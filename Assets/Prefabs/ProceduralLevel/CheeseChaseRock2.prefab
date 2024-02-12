@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4943431636562960247}
   - component: {fileID: 8591395611013038949}
   - component: {fileID: -8765187425254141564}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: CheeseChaseRock2
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

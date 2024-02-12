@@ -1,6 +1,7 @@
  
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
 using UnityEngine;
  
 public class RandomPointsOnSurface : MonoBehaviour
@@ -40,6 +41,7 @@ public class RandomPointsOnSurface : MonoBehaviour
  
         GenerateRandomRocks();
         GenerateRandomGrapples();
+        GenerateRandomTrees();
     }
  
     void GenerateRandomRocks()
@@ -96,6 +98,33 @@ public class RandomPointsOnSurface : MonoBehaviour
             }
 
         } while ((indexPoints < 1) && (indexLoops < 100));
+    }
+    void GenerateRandomTrees()
+    {
+        Vector3 pointRandom;
+        Vector3 pointOnSurface = Vector3.zero;
+        int indexPoints = 0;
+        int indexLoops = 0;
+        do
+        {
+            indexLoops++;
+            // Double the size of the bounding box here to get better results if not a Unity terrain
+            if (isUnityTerrain) bboxScale = 1f;
+            else bboxScale = 2f;
+ 
+            if (isUnityTerrain) pointRandom = RandomPointInBounds(m_collider.bounds, bboxScale);
+            else pointRandom = RandomPointInBounds(m_collider.bounds, m_collider.bounds.size.magnitude) - transform.position;
+            if(Random.Range(0, 10) < 3){
+                if (true)
+                {
+                    indexPoints++;
+                    GameObject bigHazard = Instantiate(FindObjectOfType<HazardsData>().bigHazards[Random.Range(0, FindObjectOfType<HazardsData>().bigHazards.Length)],  terrainChunk.meshObject.transform);
+                    bigHazard.SetActive(true);
+                    bigHazard.transform.position = pointRandom;
+                } 
+            }
+
+        } while ((indexPoints < 2) && (indexLoops < 100));
     }
 
  

@@ -83,13 +83,12 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
-        Debug.Log(rb.velocity.magnitude);
         if(isEndless){
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -24, 24), transform.position.y, transform.position.z);
-            //rb.AddForce(new Vector3(0, 0, 20f), ForceMode.Force);
-            if(rb.velocity.magnitude > 25 && !grappling){
-                //rb.velocity = rb.velocity.normalized * 25;
-            }
+            Physics.gravity = new Vector3(0f, -6.5f, 9.81f);
+        }
+        else{
+            Physics.gravity = new Vector3(0f, -9.81f, 0f);
         }
         
 
@@ -160,6 +159,7 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
         playerFreeLook.m_XAxis.m_Wrap = false;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = false;
+        speedParticles.SetActive(false);
     }
     private float freeLookYAxisVal;
     private void RollingCameraSettings(){
@@ -167,7 +167,7 @@ public class GrappleHook : MonoBehaviour
         StartCoroutine(ChangeXValue(playerFreeLook.m_XAxis.m_MaxValue, 0, .5f));
         playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
         playerFreeLook.m_XAxis.m_Wrap = false;
-        
+        speedParticles.SetActive(true);
     }
     public IEnumerator ChangeYValue(float oldValue, float newValue, float duration) {
         for (float t = 0f; t < duration; t += Time.deltaTime) {

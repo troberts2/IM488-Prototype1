@@ -368,7 +368,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780044368}
-  m_Mesh: {fileID: 1208770272}
+  m_Mesh: {fileID: 1109135097}
 --- !u!4 &780044371
 Transform:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5506839141635675016, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: maxGrappleDistance
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6378884482395226159, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -696,11 +696,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6406946122027030520, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000013023601
+      value: 0.0000000130235955
       objectReference: {fileID: 0}
     - target: {fileID: 6406946122027030520, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000112448015
+      value: -0.000000011244797
       objectReference: {fileID: 0}
     - target: {fileID: 7156422712474707306, guid: 68080fca67e39544585345412565da1d, type: 3}
       propertyPath: m_Mass
@@ -723,12 +723,7 @@ PrefabInstance:
       addedObject: {fileID: 1898463827}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68080fca67e39544585345412565da1d, type: 3}
---- !u!4 &1199342844 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2204134737596277490, guid: 68080fca67e39544585345412565da1d, type: 3}
-  m_PrefabInstance: {fileID: 1077857677}
-  m_PrefabAsset: {fileID: 0}
---- !u!43 &1208770272
+--- !u!43 &1109135097
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -893,6 +888,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &1199342844 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2204134737596277490, guid: 68080fca67e39544585345412565da1d, type: 3}
+  m_PrefabInstance: {fileID: 1077857677}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1266572817 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6971282478862907445, guid: 68080fca67e39544585345412565da1d, type: 3}
@@ -1164,7 +1164,11 @@ MonoBehaviour:
   hazards:
   - {fileID: 2832692191132788244, guid: 62c5426bc27683d41b7f62be3c3ad4a8, type: 3}
   - {fileID: 4547128485475500649, guid: c3b48c6ea2645c748aa885d70132fd2d, type: 3}
-  grapple: {fileID: 5584656503050795261, guid: 8b68312609ffbad408a1961be085e265, type: 3}
+  bigHazards:
+  - {fileID: 7185056292020467693, guid: d6ab7807020d7b54bbb220ac4d69b4cb, type: 3}
+  - {fileID: 7674585531963747489, guid: aaffd7b0dae589743836718bc210cbf1, type: 3}
+  - {fileID: 825981192276402363, guid: caa99803f57dbe047bd20eb21f4bfa48, type: 3}
+  grapple: {fileID: 1816177705850940728, guid: f6cef92f3869ff44b8af6d3c5250f194, type: 3}
   heightMapSettings: {fileID: 11400000, guid: 2d0545fd16c5daf44bc417ad064c54f4, type: 2}
 --- !u!1 &1898463826
 GameObject:

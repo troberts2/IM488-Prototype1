@@ -53,6 +53,7 @@ public class TerrainChunk {
 
 
 		meshObject = new GameObject("Terrain Chunk");
+		meshObject.layer = 3;
 		meshRenderer = meshObject.AddComponent<MeshRenderer>();
 		meshFilter = meshObject.AddComponent<MeshFilter>();
 		meshRenderer.material = material;
