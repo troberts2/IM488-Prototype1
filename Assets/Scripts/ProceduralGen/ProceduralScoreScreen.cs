@@ -39,6 +39,6 @@ public class ProceduralScoreScreen : MonoBehaviour
     }
 
     public void MainMenu(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(0);
     }
 }
