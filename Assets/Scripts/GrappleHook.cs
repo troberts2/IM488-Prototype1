@@ -51,7 +51,7 @@ public class GrappleHook : MonoBehaviour
     //temp before combine with other player move script
     private bool freeze;
     private bool enableMovementOnNextTouch;
-    [SerializeField] private bool isEndless;
+    public bool isEndless;
 
 
     private void Start() {
@@ -113,6 +113,7 @@ public class GrappleHook : MonoBehaviour
         isSlowed = true;
         crossHair.enabled = true;
         playerFreeLook.m_Lens.FieldOfView = grappleFov;
+        speedParticles.SetActive(false);
         FreeLookCameraSettings();
         AudioSource.PlayClipAtPoint(timeStop, camPos);
         for (float i = 1; i >= timeSlowPercentage; i -= Time.deltaTime){
@@ -123,6 +124,7 @@ public class GrappleHook : MonoBehaviour
     private IEnumerator GrappleTimeNormal(){
         isSlowed = false;
         crossHair.enabled = false;
+        speedParticles.SetActive(true);
         RollingCameraSettings();
         for(float i = timeSlowPercentage; i <= 1; i += Time.deltaTime){
             SetTimeScale(i);
@@ -159,7 +161,6 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_YAxis.m_MaxSpeed = 5f;
         playerFreeLook.m_XAxis.m_Wrap = false;
         playerFreeLook.m_RecenterToTargetHeading.m_enabled = false;
-        speedParticles.SetActive(false);
     }
     private float freeLookYAxisVal;
     private void RollingCameraSettings(){
@@ -167,7 +168,6 @@ public class GrappleHook : MonoBehaviour
         StartCoroutine(ChangeXValue(playerFreeLook.m_XAxis.m_MaxValue, 0, .5f));
         playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
         playerFreeLook.m_XAxis.m_Wrap = false;
-        speedParticles.SetActive(true);
     }
     public IEnumerator ChangeYValue(float oldValue, float newValue, float duration) {
         for (float t = 0f; t < duration; t += Time.deltaTime) {
