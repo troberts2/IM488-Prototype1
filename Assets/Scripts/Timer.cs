@@ -5,13 +5,15 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
+    public string currentTime;
+    public string currentTimeNoColon;
     public static Timer instance;
     private float timeDuration = 99f * 60f;
 
     [SerializeField]
     bool countDown = true;
 
-    public float timer;
+    public float gameTimer;
 
     [SerializeField]
     private TextMeshProUGUI firstMinute;
@@ -33,27 +35,29 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer > 0 && countDown)
+        if (gameTimer > 0 && countDown)
         {
-            timer -= Time.deltaTime;
-            UpdateTimerDisplay(timer);
+            gameTimer -= Time.deltaTime;
+            UpdateTimerDisplay(gameTimer);
         }
-        else if (!countDown && timer < timeDuration)
+        else if (!countDown && gameTimer < timeDuration)
         {
-            timer += Time.deltaTime;
-            UpdateTimerDisplay(timer);
+            gameTimer += Time.deltaTime;
+            UpdateTimerDisplay(gameTimer);
         }
+
+        
     }
 
     private void ResetTimer()
     {
         if (countDown)
         {
-            timer = timeDuration;
+            gameTimer = timeDuration;
         }
         else
         {
-            timer = 0;
+            gameTimer = 0;
         }
     }
 
@@ -64,10 +68,32 @@ public class Timer : MonoBehaviour
         float minutes = Mathf.FloorToInt(time / 60);
         float seconds = Mathf.FloorToInt(time % 60);
 
-        string currentTime = string.Format("{00:00}{1:00}", minutes, seconds);
+        currentTime = string.Format("{00:00}{1:00}", minutes, seconds);
         firstMinute.text = currentTime[0].ToString();
         secondMinute.text = currentTime[1].ToString();
         firstSecond.text = currentTime[2].ToString();
         secondSecond.text = currentTime[3].ToString();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Victory"))
+        {
+            float tFloat = PlayerPrefs.GetFloat("Times");
+            float compTimeOld = tFloat;
+            float compTimeNew = gameTimer;
+            if (compTimeOld < compTimeNew)
+            {
+
+            }
+            else if (tFloat == 0)
+            {
+                PlayerPrefs.SetFloat("Times", gameTimer);
+            }
+            else
+            {
+                PlayerPrefs.SetFloat("Times", gameTimer);
+            }
+        }
     }
 }

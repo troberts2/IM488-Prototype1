@@ -6,6 +6,7 @@ using Cinemachine;
 
 public class WinCondition : MonoBehaviour
 {
+    public static WinCondition instance;
     public CinemachineFreeLook cam;
 
     public bool won;

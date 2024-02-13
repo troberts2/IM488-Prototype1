@@ -13,29 +13,37 @@ public class SaveData : MonoBehaviour
     private float compTime;
     private float timeFloat;
 
+    public void SetString(string BestTime, string Time)
+    {
+        PlayerPrefs.SetString(BestTime, Time);
+    }
+
+    public string GetString(string BestTime)
+    {
+        return PlayerPrefs.GetString(BestTime);
+    }
+
     private void Start()
     {
-        LoadFromJson();
+        GetString(timeHold);
+
         compTime = float.Parse(timeHold);
     }
 
-    public void SaveToJson()
+
+    public void Update()
     {
         
-        timeFloat = Timer.instance.timer;
+        timeFloat = Timer.instance.gameTimer;
         if (compTime > timeFloat)
         {
-            newTime = Timer.instance.timer.ToString();
-            newTime = JsonUtility.ToJson(time);
-            string filePath = Application.persistentDataPath + "/SaveData.json";
-            System.IO.File.WriteAllText(filePath, newTime);
+            newTime = Timer.instance.gameTimer.ToString();
+            SetString(timeHold, Timer.instance.gameTimer.ToString());
         }
         else
         {
             newTime = timeHold;
-            newTime = JsonUtility.ToJson(time);
-            string filePath = Application.persistentDataPath + "/SaveData.json";
-            System.IO.File.WriteAllText(filePath, newTime);
+            SetString(timeHold, Timer.instance.gameTimer.ToString());
         }
         
     }
@@ -48,13 +56,6 @@ public class SaveData : MonoBehaviour
         time = JsonUtility.FromJson<Times>(timeHold);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Victory") || collision.gameObject.CompareTag("Enemy"))
-        {
-            SaveToJson();
-        }
-    }
 }
 
 public class Times
