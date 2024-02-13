@@ -12,14 +12,15 @@ public class TimeSave : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(PlayerPrefs.GetFloat("Times").ToString());
         BestTime.text = PlayerPrefs.GetFloat("Times").ToString();
         CurrentTime.text = PlayerPrefs.GetFloat("Your Time").ToString();
 
         float minutes = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") / 60);
         float seconds = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") % 60);
 
-        float bMinutes = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") / 60);
-        float bSeconds = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") % 60);
+        float bMinutes = Mathf.FloorToInt(PlayerPrefs.GetFloat("Times") / 60);
+        float bSeconds = Mathf.FloorToInt(PlayerPrefs.GetFloat("Times") % 60);
 
         BestTime.text = string.Format("{00:00}{1:00}", bMinutes, bSeconds);
         CurrentTime.text = string.Format("{00:00}{1:00}", minutes, seconds);
