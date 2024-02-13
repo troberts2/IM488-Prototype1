@@ -51,11 +51,10 @@ public class ProgressBar : MonoBehaviour
         if (curBar <= 5 && !won)
         {
             won = true;
-            StartCoroutine(win.Win());
+            //StartCoroutine(win.Win());
         }
 
         float barLine = curBar / maxBar;
-        Debug.Log( 1 - (barLine));
         playerToken.localPosition = new Vector3((1 - barLine) * 200, playerToken.localPosition.y);
 
 

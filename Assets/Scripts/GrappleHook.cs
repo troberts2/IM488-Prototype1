@@ -51,6 +51,7 @@ public class GrappleHook : MonoBehaviour
     //temp before combine with other player move script
     private bool freeze;
     private bool enableMovementOnNextTouch;
+    public bool isEndless;
 
 
     private void Start() {
@@ -82,6 +83,14 @@ public class GrappleHook : MonoBehaviour
             isSlowed = false;
         } 
         UseSlowTime();
+        if(isEndless){
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -24, 24), transform.position.y, transform.position.z);
+            Physics.gravity = new Vector3(0f, -6.5f, 9.81f);
+        }
+        else{
+            Physics.gravity = new Vector3(0f, -9.81f, 0f);
+        }
+        
 
         //Gabe code (hi) for crossheir color
         RaycastHit hit;
@@ -104,6 +113,7 @@ public class GrappleHook : MonoBehaviour
         isSlowed = true;
         crossHair.enabled = true;
         playerFreeLook.m_Lens.FieldOfView = grappleFov;
+        speedParticles.SetActive(false);
         FreeLookCameraSettings();
         AudioSource.PlayClipAtPoint(timeStop, camPos);
         for (float i = 1; i >= timeSlowPercentage; i -= Time.deltaTime){
@@ -114,6 +124,7 @@ public class GrappleHook : MonoBehaviour
     private IEnumerator GrappleTimeNormal(){
         isSlowed = false;
         crossHair.enabled = false;
+        speedParticles.SetActive(true);
         RollingCameraSettings();
         for(float i = timeSlowPercentage; i <= 1; i += Time.deltaTime){
             SetTimeScale(i);
@@ -157,7 +168,6 @@ public class GrappleHook : MonoBehaviour
         StartCoroutine(ChangeXValue(playerFreeLook.m_XAxis.m_MaxValue, 0, .5f));
         playerFreeLook.m_YAxis.m_MaxSpeed = 0f;
         playerFreeLook.m_XAxis.m_Wrap = false;
-        
     }
     public IEnumerator ChangeYValue(float oldValue, float newValue, float duration) {
         for (float t = 0f; t < duration; t += Time.deltaTime) {
@@ -213,7 +223,7 @@ public class GrappleHook : MonoBehaviour
 
         if(grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
 
-        JumpToPosition(spotToSendPlayer.position, highestPointOnArc);
+        JumpToPosition(grapplePoint, highestPointOnArc);
 
         Invoke(nameof(StopGrapple), 1f);
 
