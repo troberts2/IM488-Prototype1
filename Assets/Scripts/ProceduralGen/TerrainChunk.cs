@@ -47,10 +47,10 @@ public class TerrainChunk {
 		bounds = new Bounds(position,Vector2.one * meshSettings.meshWorldSize );
 
 		float viewerDstFromXGetBig = Mathf.Abs(sampleCentre.x - viewerPosition.x);
-		xGetBig = viewerDstFromXGetBig > 24;
-		if(xGetBig){
-			this.heightMapSettings = hazardsData.heightMapSettings;
-		}
+		xGetBig = coord.x != 0;
+		// if(xGetBig){
+		// 	this.heightMapSettings = hazardsData.heightMapSettings;
+		// }
 
 
 		meshObject = new GameObject("Terrain Chunk");
@@ -81,7 +81,10 @@ public class TerrainChunk {
 	}
 
 	public void Load() {
+		if(!xGetBig)
 		ThreadedDataRequester.RequestData(() => HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, sampleCentre), OnHeightMapReceived);
+		else
+		ThreadedDataRequester.RequestData(() => HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, hazardsData.heightMapSettings, sampleCentre), OnHeightMapReceived);
 	}
 
 
@@ -158,7 +161,7 @@ public class TerrainChunk {
 				if (lodMeshes [colliderLODIndex].hasMesh) {
 					meshCollider.sharedMesh = lodMeshes [colliderLODIndex].mesh;
 					hasSetCollider = true;
-					if(Mathf.Abs(viewer.position.x - meshObject.transform.position.x) < 10){
+					if(coord.x == 0){
 						meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
 					}
 				}
@@ -168,11 +171,6 @@ public class TerrainChunk {
 
 	public void SetVisible(bool visible) {
 		meshObject.SetActive (visible);
-		if(visible){
-			if(Mathf.Abs(viewer.position.x - meshObject.transform.position.x) < 10 ){
-				//meshObject.GetComponent<RandomPointsOnSurface>().InitializeObject();
-			}
-		}
 	}
 
 	public bool IsVisible() {
@@ -204,7 +202,6 @@ class LODMesh {
 	public void RequestMesh(HeightMap heightMap, MeshSettings meshSettings) {
 		hasRequestedMesh = true;
 		ThreadedDataRequester.RequestData (() => MeshGenerator.GenerateTerrainMesh (heightMap.values, meshSettings, lod), OnMeshDataReceived);
-		
 	}
 
 }

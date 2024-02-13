@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class LossCondition : MonoBehaviour
 {
     private WinCondition winCon;
+    private GrappleHook grappleHook;
 
     private void Start()
     {
         winCon = FindObjectOfType<WinCondition>();
+        grappleHook = FindObjectOfType<GrappleHook>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -23,10 +25,16 @@ public class LossCondition : MonoBehaviour
     public void Lose()
     {
         if (!winCon.won)
-        {
+        {   
+
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            SceneManager.LoadScene("Loss Scene");
+            if(!grappleHook.isEndless){
+                SceneManager.LoadScene("Loss Scene");
+            }else{
+                FindObjectOfType<ProceduralScoreScreen>().ShowScreen();
+            }
+            
         }
     }
 

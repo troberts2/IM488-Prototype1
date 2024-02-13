@@ -185,8 +185,11 @@ public class Movement : MonoBehaviour
         hp--;
         immune = true;
         health.UpdateHealth();
-        health.flashImage.image.enabled = true;
-        health.flashImage.StartFlash(0.5f, 0.5f, Color.red);
+        if(hp > 0){
+            health.flashImage.image.enabled = true;
+            health.flashImage.StartFlash(0.5f, 0.5f, Color.red);
+        }
+        
 
         StartCoroutine(Blink());
 

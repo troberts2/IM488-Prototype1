@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: 8768da20c5311e34cad79781ebcf9ea2
   - enabled: 1
     path: Assets/Scenes/PrototypeLevel2.unity
-    guid: 569d36c91897abf439b5e3cfdc698ed6
+    guid: aeaba308c3427ea4f828a43049f7de99
   - enabled: 0
     path: Assets/Scenes/PrototypeLevel.unity
     guid: 50db69ee8e16326418c7f8b2ec112c20
@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: b4286a00045e7f741aa7167e9930d0db
+  - enabled: 1
+    path: Assets/Scenes/ProceduralTest.unity
+    guid: 459f1bda1a2df7e4caf0b45812d29d74
   m_configObjects: {}

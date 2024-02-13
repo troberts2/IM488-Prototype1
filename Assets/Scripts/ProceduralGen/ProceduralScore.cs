@@ -10,13 +10,17 @@ public class ProceduralScore : MonoBehaviour
     public Transform playerPos;
     public TextMeshProUGUI scoreText;
     private float ogFontSize;
+    public float score;
 
     private void Start() {
         startPos = playerPos.position;
         ogFontSize = scoreText.fontSize;
     }
     private void Update() {
-        float score = playerPos.position.z - startPos.z;
+        if(playerPos != null){
+            score = playerPos.position.z - startPos.z;
+        }
+        
         scoreText.text = (int)score + "";
         if(scoreText.fontSize >= ogFontSize){
             float newFontSize = ogFontSize * (playerPos.gameObject.GetComponent<Rigidbody>().velocity.magnitude / 25);

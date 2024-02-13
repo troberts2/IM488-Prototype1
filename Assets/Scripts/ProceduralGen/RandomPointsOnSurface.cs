@@ -132,7 +132,7 @@ public class RandomPointsOnSurface : MonoBehaviour
     {
         Vector3 extents = terrainChunk.bounds.size /2f;
         Vector3 point = new Vector3(
-        Random.Range( -extents.x, extents.x ),
+        Random.Range( -extents.x * .9f, extents.x * .9f),
         15f,
         Random.Range( -extents.y, extents.y )
         )  + bounds.center;
