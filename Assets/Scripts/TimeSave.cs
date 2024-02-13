@@ -12,6 +12,10 @@ public class TimeSave : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.GetFloat("Times") == 0)
+        {
+            PlayerPrefs.SetFloat("Times", 9999f);
+        }
         Debug.Log(PlayerPrefs.GetFloat("Times").ToString());
         BestTime.text = PlayerPrefs.GetFloat("Times").ToString();
         CurrentTime.text = PlayerPrefs.GetFloat("Your Time").ToString();
