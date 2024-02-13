@@ -82,7 +82,8 @@ public class Timer : MonoBehaviour
             float tFloat = PlayerPrefs.GetFloat("Times");
             float compTimeOld = tFloat;
             float compTimeNew = gameTimer;
-            if (compTimeOld < compTimeNew)
+            PlayerPrefs.SetFloat("Your Time", gameTimer);
+            if (compTimeOld <= compTimeNew)
             {
 
             }
