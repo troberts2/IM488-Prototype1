@@ -22,11 +22,12 @@ public class RandomPointsOnSurface : MonoBehaviour
     private float bboxScale = 1f;
 
     public TerrainChunk terrainChunk;
+    private GrappleHook player;
 
  
     void Start()
     {
-
+        player = FindObjectOfType<GrappleHook>();
     }
     public void InitializeObject(){
         m_collider = GetComponent<MeshCollider>();
@@ -42,6 +43,7 @@ public class RandomPointsOnSurface : MonoBehaviour
         GenerateRandomRocks();
         GenerateRandomGrapples();
         GenerateRandomTrees();
+        if(!player.started) Invoke("DestoryObstacles", .1f);
     }
  
     void GenerateRandomRocks()
@@ -137,6 +139,20 @@ public class RandomPointsOnSurface : MonoBehaviour
         Random.Range( -extents.y, extents.y )
         )  + bounds.center;
         return transform.TransformPoint( point );
+    }
+    public void DestoryObstacles(){
+        Vector3 explosionPosition = player.transform.position;
+        float explosionRadius= 20f;
+        Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
+        foreach (Collider col in colliders)
+        {
+            if (col.tag == "Obstacle")
+            {
+                Destroy(col.gameObject);
+            }
+        }
+        player.started = true;
+ 
     }
  
     /* Dont work for planes?

@@ -8,6 +8,7 @@ public class GrappleHook : MonoBehaviour
 {
     //component ref
     private Rigidbody rb;
+    internal bool started = false;
     private CinemachineFreeLook playerFreeLook;
 
     [SerializeField] private GameObject playerCam;
@@ -185,6 +186,7 @@ public class GrappleHook : MonoBehaviour
         playerFreeLook.m_XAxis.m_MinValue = -newValue;
         playerFreeLook.m_XAxis.m_MaxValue = newValue;
     }
+
 
     private void StartGrapple(){
         if(grapplingCdTimer > 0 || currentSlowTimeLeft <= 0) return;
