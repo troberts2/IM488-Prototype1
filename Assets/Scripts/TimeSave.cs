@@ -5,11 +5,25 @@ using TMPro;
 
 public class TimeSave : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI timeTest;
+    [SerializeField] TextMeshProUGUI BestTime;
+    [SerializeField] TextMeshProUGUI CurrentTime;
+
+    
 
     private void Start()
     {
-        timeTest.text = PlayerPrefs.GetFloat("Times").ToString();
+        BestTime.text = PlayerPrefs.GetFloat("Times").ToString();
+        CurrentTime.text = PlayerPrefs.GetFloat("Your Time").ToString();
+
+        float minutes = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") / 60);
+        float seconds = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") % 60);
+
+        float bMinutes = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") / 60);
+        float bSeconds = Mathf.FloorToInt(PlayerPrefs.GetFloat("Your Time") % 60);
+
+        BestTime.text = string.Format("{00:00}{1:00}", bMinutes, bSeconds);
+        CurrentTime.text = string.Format("{00:00}{1:00}", minutes, seconds);
+
     }
 
     public void SaveData()
