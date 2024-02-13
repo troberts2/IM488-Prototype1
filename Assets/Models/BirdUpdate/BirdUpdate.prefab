@@ -530,7 +530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2543547756170697143}
   - component: {fileID: 1708465661784230059}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Box Colider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1175,10 +1175,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5948764721057410966, guid: 5690629ee9c08f142a01be6765371f97, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20bbf78e0f478154e94139ccd81916c3, type: 2}
+    - target: {fileID: 6464791297988266103, guid: 5690629ee9c08f142a01be6765371f97, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20bbf78e0f478154e94139ccd81916c3, type: 2}
     - target: {fileID: 6685373633007317998, guid: 5690629ee9c08f142a01be6765371f97, type: 3}
       propertyPath: m_Name
       value: Rock1
       objectReference: {fileID: 0}
+    - target: {fileID: 7944422905464168947, guid: 5690629ee9c08f142a01be6765371f97, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20bbf78e0f478154e94139ccd81916c3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
