@@ -17,15 +17,22 @@ public class MenuFunctions : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("hi");
-
-        paused = false;
-        pauseScreen = transform.GetChild(0).gameObject;
-        Debug.Log(pauseScreen);
-        pauseScreen.SetActive(false);
 
         grapple = FindObjectOfType<GrappleHook>();
         movement = FindObjectOfType<Movement>();
+
+        if (movement != null)
+        {
+            paused = false;
+            pauseScreen = transform.GetChild(0).gameObject;
+            Debug.Log(pauseScreen);
+            pauseScreen.SetActive(false);
+        }
+        else
+        {
+            this.enabled = false;
+        }
+
     }
 
     private void Update()
