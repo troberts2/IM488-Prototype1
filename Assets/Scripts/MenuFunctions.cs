@@ -25,7 +25,6 @@ public class MenuFunctions : MonoBehaviour
         {
             paused = false;
             pauseScreen = transform.GetChild(0).gameObject;
-            Debug.Log(pauseScreen);
             pauseScreen.SetActive(false);
         }
         else
@@ -39,7 +38,6 @@ public class MenuFunctions : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("hi");
             Pause();
         }
     }
